@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_canteen_shop/pages/overview_page.dart';
+import 'package:smart_canteen_shop/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const OverviewPage(),
+                                builder: (context) => const HomePage(),
                               ),
                             );
                           },
