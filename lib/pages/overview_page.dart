@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'orders_page.dart';
+import 'menu_page.dart';
+import 'seats_page.dart';
 
 class OverviewPage extends StatelessWidget {
-  const OverviewPage({super.key});
+  final Function(int) onTabChange;
+
+  const OverviewPage({super.key, required this.onTabChange});
 
   @override
   Widget build(BuildContext context) {
@@ -160,33 +165,39 @@ class OverviewPage extends StatelessWidget {
 
                         const Spacer(),
 
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 18,
-                            vertical: 11,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.swap_horiz,
-                                color: Color(0xff0F7B94),
-                                size: 18,
-                              ),
-                              SizedBox(width: 6),
-                              Text(
-                                "Exchange",
-                                style: TextStyle(
+                        InkWell(
+                          borderRadius: BorderRadius.circular(30),
+                          onTap: () {
+                            onTabChange(4);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 11,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Icon(
+                                  Icons.swap_horiz,
                                   color: Color(0xff0F7B94),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
+                                  size: 18,
                                 ),
-                              ),
-                            ],
+                                SizedBox(width: 6),
+                                Text(
+                                  "Exchange",
+                                  style: TextStyle(
+                                    color: Color(0xff0F7B94),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -206,11 +217,17 @@ class OverviewPage extends StatelessWidget {
             Icons.shopping_bag_outlined,
             "View orders",
             Colors.orange,
+            () => onTabChange(2),
           ),
 
           const SizedBox(height: 14),
 
-          _buildActionTile(Icons.restaurant, "Edit menu", Colors.teal),
+          _buildActionTile(
+            Icons.restaurant,
+            "Edit menu",
+            Colors.teal,
+            () => onTabChange(1),
+          ),
 
           const SizedBox(height: 14),
 
@@ -218,6 +235,7 @@ class OverviewPage extends StatelessWidget {
             Icons.event_seat_outlined,
             "Manage seats",
             Colors.lightBlue,
+            () => onTabChange(3),
           ),
 
           const SizedBox(height: 30),
@@ -271,45 +289,56 @@ class OverviewPage extends StatelessWidget {
     );
   }
 
-  Widget _buildActionTile(IconData icon, String title, Color iconColor) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.grey.shade200),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.08),
-              borderRadius: BorderRadius.circular(16),
+  Widget _buildActionTile(
+    IconData icon,
+    String title,
+    Color iconColor,
+    VoidCallback onTap,
+  ) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(24),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: Colors.grey.shade200),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.03),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-            child: Icon(icon, color: iconColor, size: 22),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: iconColor.withOpacity(0.08),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(icon, color: iconColor, size: 22),
+            ),
+
+            const SizedBox(width: 16),
+
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ),
-          Icon(Icons.chevron_right, color: Colors.grey.shade400),
-        ],
+
+            Icon(Icons.chevron_right, color: Colors.grey.shade400),
+          ],
+        ),
       ),
     );
   }
