@@ -17,13 +17,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
 
-  final pages = const [
-    OverviewPage(),
-    MenuPage(),
-    OrdersPage(),
-    SeatsPage(),
-    WalletPage(),
-  ];
+  late final List<Widget> pages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    pages = [
+      OverviewPage(
+        onTabChange: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+      ),
+      const MenuPage(),
+      const OrdersPage(),
+      const SeatsPage(),
+      const WalletPage(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
